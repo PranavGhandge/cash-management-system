@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+
 import {
     FaMoneyBillWave,
     FaUniversity,
     FaArrowDown,
     FaArrowUp,
 } from "react-icons/fa";
+
 import { BiBarChartAlt2 } from "react-icons/bi";
-import {
-    MdDashboard,
-} from "react-icons/md";
+
+import { MdDashboard } from "react-icons/md";
 
 import {
     PieChart,
@@ -179,138 +180,138 @@ function Dashboard() {
 
     return (
 
-        <div className="ml-64 p-8 bg-[#f4f7fb] min-h-screen">
+        <div className="ml-64 p-6 bg-[#f4f7fb] min-h-screen overflow-hidden">
 
             {/* ================= HEADER ================= */}
 
-            <h1 className="text-4xl font-bold mb-8">
-                <div className="flex items-center gap-3">
-                    <MdDashboard className="text-blue-900 text-4xl" />
-                    <h1 className="text-4xl font-bold">
-                        Dashboard
-                    </h1>
-                </div>
-            </h1>
+            <div className="flex items-center gap-3 mb-6">
+
+                <MdDashboard className="text-blue-900 text-4xl" />
+
+                <h1 className="text-4xl font-bold">
+                    Dashboard
+                </h1>
+
+            </div>
+
 
             {/* ================= TOP CARDS ================= */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-5 mb-6">
 
                 {/* CURRENT CASH */}
 
-                <div className="bg-white rounded-2xl shadow p-6">
+                <div className="bg-white rounded-2xl shadow p-5 h-[180px] xl:col-span-3">
 
-                    <h2 className="flex items-center gap-2 text-2xl font-bold">
+                    <h2 className="flex items-center gap-2 text-xl font-bold">
+
                         <FaMoneyBillWave className="text-green-600 text-3xl" />
+
                         Current Cash
+
                     </h2>
 
-                    <h1 className="text-5xl font-bold text-green-600 mt-5">
+                    <h1 className="text-4xl font-bold text-green-600 mt-6">
+
                         ₹ {totalCash}
+
                     </h1>
 
                 </div>
 
-                {/* NOTES */}
+                {/* REMAINING NOTES */}
 
-                <div className="bg-white rounded-2xl shadow p-6">
+                <div className="bg-white rounded-2xl shadow p-5 h-[180px] xl:col-span-3">
 
-                    <h2 className="flex items-center whitespace-nowrap gap-2 text-xl font-bold mb-5">
-                        <FaUniversity className="text-blue-700 text-3xl" />
+                    <h2 className="flex items-center gap-2 text-xl font-bold mb-3">
+
+                        <FaUniversity className="text-blue-700 text-2xl" />
+
                         Remaining Notes
+
                     </h2>
 
-                    <div className="space-y-2 text-gray-700">
+                    {/* 3 - 3 NOTES */}
 
-                        <p>
-                            ₹500 :
-                            {" "}
-                            {balance?.notes?.note_500 || 0}
-                        </p>
+                    <div className="grid grid-cols-2 gap-y-4 text-gray-700 text-base font-medium">
 
-                        <p>
-                            ₹200 :
-                            {" "}
-                            {balance?.notes?.note_200 || 0}
-                        </p>
+                        <div>₹500 : {balance?.notes?.note_500 || 0}</div>
 
-                        <p>
-                            ₹100 :
-                            {" "}
-                            {balance?.notes?.note_100 || 0}
-                        </p>
+                        <div>₹200 : {balance?.notes?.note_200 || 0}</div>
 
-                        <p>
-                            ₹50 :
-                            {" "}
-                            {balance?.notes?.note_50 || 0}
-                        </p>
+                        <div>₹100 : {balance?.notes?.note_100 || 0}</div>
 
-                        <p>
-                            ₹20 :
-                            {" "}
-                            {balance?.notes?.note_20 || 0}
-                        </p>
+                        <div>₹50 : {balance?.notes?.note_50 || 0}</div>
 
-                        <p>
-                            ₹10 :
-                            {" "}
-                            {balance?.notes?.note_10 || 0}
-                        </p>
+                        <div>₹20 : {balance?.notes?.note_20 || 0}</div>
+
+                        <div>₹10 : {balance?.notes?.note_10 || 0}</div>
 
                     </div>
+
                 </div>
 
                 {/* DEPOSIT */}
 
-                <div className="bg-white rounded-2xl shadow p-6">
+                <div className="bg-white rounded-2xl shadow p-5 h-[180px] xl:col-span-3">
 
-                    <h2 className="flex items-center gap-2 text-2xl font-bold">
+                    <h2 className="flex items-center gap-2 text-xl font-bold">
+
                         <FaArrowDown className="text-green-600 text-3xl" />
+
                         Deposit
+
                     </h2>
 
-                    <h1 className="text-5xl font-bold mt-5">
+                    <h1 className="text-4xl font-bold mt-6">
+
                         ₹ {totalDeposit}
+
                     </h1>
 
                 </div>
 
                 {/* WITHDRAWAL */}
 
-                <div className="bg-white rounded-2xl shadow p-6">
+                <div className="bg-white rounded-2xl shadow p-5 h-[180px] xl:col-span-3">
 
-                    <h2 className="flex items-center gap-2 text-2xl font-bold">
+                    <h2 className="flex items-center gap-2 text-xl font-bold">
+
                         <FaArrowUp className="text-red-600 text-3xl" />
+
                         Withdrawal
+
                     </h2>
 
-                    <h1 className="text-5xl font-bold mt-5">
+                    <h1 className="text-4xl font-bold mt-6">
+
                         ₹ {totalWithdrawal}
+
                     </h1>
 
                 </div>
+
             </div>
 
             {/* ================= CHARTS ================= */}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
 
                 {/* PIE CHART */}
 
-                <div className="bg-white rounded-2xl shadow p-6">
+                <div className="bg-white rounded-2xl shadow p-5 h-[340px]">
 
-                    <h2 className="text-2xl font-bold mb-5 text-center">
-                        <div className="flex items-center gap-3">
-                            <BiBarChartAlt2 className="text-blue-700 text-3xl" />
+                    <div className="flex items-center gap-3 mb-4">
 
-                            <h2 className="text-2xl font-bold">
-                                Deposit vs Withdrawal
-                            </h2>
-                        </div>
-                    </h2>
+                        <BiBarChartAlt2 className="text-blue-700 text-3xl" />
 
-                    <div className="w-full h-[320px]">
+                        <h2 className="text-2xl font-bold">
+                            Deposit vs Withdrawal
+                        </h2>
+
+                    </div>
+
+                    <div className="w-full h-[220px]">
 
                         <ResponsiveContainer>
 
@@ -319,7 +320,7 @@ function Dashboard() {
                                 <Pie
                                     data={pieData}
                                     dataKey="value"
-                                    outerRadius={110}
+                                    outerRadius={70}
                                     label
                                 >
 
@@ -343,23 +344,24 @@ function Dashboard() {
                         </ResponsiveContainer>
 
                     </div>
+
                 </div>
 
                 {/* BAR CHART */}
 
-                <div className="bg-white rounded-2xl shadow p-6">
+                <div className="bg-white rounded-2xl shadow p-5 h-[340px]">
 
-                    <h2 className="text-2xl font-bold mb-5 text-center">
-                        <div className="flex items-center gap-3">
-                            <FaUniversity className="text-indigo-700 text-3xl" />
+                    <div className="flex items-center gap-3 mb-4">
 
-                            <h2 className="text-2xl font-bold">
-                                Bank Wise Transactions
-                            </h2>
-                        </div>
-                    </h2>
+                        <FaUniversity className="text-indigo-700 text-3xl" />
 
-                    <div className="w-full h-[320px]">
+                        <h2 className="text-2xl font-bold">
+                            Bank Wise Transactions
+                        </h2>
+
+                    </div>
+
+                    <div className="w-full h-[220px]">
 
                         <ResponsiveContainer>
 
@@ -377,6 +379,7 @@ function Dashboard() {
                                     dataKey="amount"
                                     fill="#1e3c72"
                                     radius={[10, 10, 0, 0]}
+                                    barSize={45}
                                 />
 
                             </BarChart>
@@ -384,7 +387,9 @@ function Dashboard() {
                         </ResponsiveContainer>
 
                     </div>
+
                 </div>
+
             </div>
         </div>
     );

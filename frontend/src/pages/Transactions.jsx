@@ -117,6 +117,28 @@ function Transactions() {
 
     const handleOpening = async () => {
 
+        // ================= TOTAL =================
+
+        const openingTotal =
+
+            Number(opening.note_500 || 0) * 500 +
+            Number(opening.note_200 || 0) * 200 +
+            Number(opening.note_100 || 0) * 100 +
+            Number(opening.note_50 || 0) * 50 +
+            Number(opening.note_20 || 0) * 20 +
+            Number(opening.note_10 || 0) * 10;
+
+        // ================= VALIDATION =================
+
+        if (openingTotal <= 0) {
+
+            toast.error(
+                "Enter Opening Balance"
+            );
+
+            return;
+        }
+
         try {
 
             const res = await fetch(
@@ -130,6 +152,7 @@ function Transactions() {
                     },
 
                     body: JSON.stringify({
+
                         note_500: Number(
                             opening.note_500 || 0
                         ),
@@ -153,6 +176,7 @@ function Transactions() {
                         note_10: Number(
                             opening.note_10 || 0
                         ),
+
                     }),
                 }
             );
@@ -166,24 +190,28 @@ function Transactions() {
                 getBalance();
 
                 setOpening({
+
                     note_500: "",
                     note_200: "",
                     note_100: "",
                     note_50: "",
                     note_20: "",
                     note_10: "",
+
                 });
 
             } else {
 
-                toast.error(data.message);
+                toast.error(
+                    data.message
+                );
 
             }
 
         } catch (err) {
 
             toast.error(
-                "Something went wrong ❌"
+                "Something went wrong "
             );
 
         }
@@ -319,7 +347,7 @@ function Transactions() {
         } catch (err) {
 
             toast.error(
-                "Transaction Failed ❌"
+                "Transaction Failed "
             );
 
         }
@@ -360,7 +388,7 @@ function Transactions() {
                                 if (res.ok) {
 
                                     toast.success(
-                                        "Transaction Deleted ❌"
+                                        "Transaction Deleted Successfully"
                                     );
 
                                     getTransactions();
@@ -440,10 +468,10 @@ function Transactions() {
     const showDepositToast = () => {
 
         toast(
-            "Cash Deposit Successfully ✅",
+            "Cash Deposit Successfully",
 
             {
-                icon: "💰",
+                icon: "✅",
 
                 style: {
                     background: "#16a34a",
@@ -462,14 +490,14 @@ function Transactions() {
     const showWithdrawalToast = () => {
 
         toast(
-            "Cash Withdraw Successfully ❌",
+            "Cash Withdraw Successfully ",
 
             {
-                icon: "💸",
+                icon: "✅",
 
                 style: {
-                    background: "#dc2626",
-                    color: "white",
+                    background: "#facc15",
+                    color: "black",
                     minWidth: "340px",
                     maxWidth: "340px",
                     padding: "16px 20px",
@@ -487,7 +515,7 @@ function Transactions() {
             "Opening Balance Added Successfully",
 
             {
-                icon: "🏦",
+                icon: "✅",
 
                 style: {
                     background: "#0ea5e9",
@@ -512,8 +540,8 @@ function Transactions() {
                 icon: "⚠️",
 
                 style: {
-                    background: "#facc15",
-                    color: "black",
+                    background: "#dc2626",
+                    color: "white",
                     minWidth: "340px",
                     maxWidth: "340px",
                     padding: "16px 20px",
