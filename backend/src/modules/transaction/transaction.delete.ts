@@ -5,55 +5,76 @@ export const deleteTransaction = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
+
   const conn = await db.getConnection();
 
   try {
+
     await conn.beginTransaction();
 
     const { id }: any = req.params;
 
-    // 👉 Get transaction
+    // ================= GET TRANSACTION =================
+
     const [rows]: any = await conn.query(
       "SELECT * FROM transactions WHERE id=?",
       [id]
     );
 
     if (rows.length === 0) {
+
       throw new Error("Transaction not found ❌");
+
     }
 
     const txn = rows[0];
 
-    const today = new Date().toISOString().split("T")[0];
+    // ✅ transaction ची date घे
+    const txnDate = new Date(txn.created_at)
+      .toISOString()
+      .split("T")[0];
 
-    // 👉 Get balance
+    // ================= GET BALANCE =================
+
     const [balanceRows]: any = await conn.query(
       "SELECT * FROM cash_balance WHERE date=? FOR UPDATE",
-      [today]
+      [txnDate]
     );
+
+    if (balanceRows.length === 0) {
+
+      throw new Error("Balance not found ❌");
+
+    }
 
     const balance = balanceRows[0];
 
-    // 👉 Reverse balance
+    // ================= CALCULATE =================
+
     const calc = (
       oldVal: number,
       change: number
     ) => {
+
       return txn.type === "deposit"
         ? oldVal - change
         : oldVal + change;
+
     };
 
-    // 👉 Update balance
+    // ================= UPDATE BALANCE =================
+
     await conn.query(
+
       `UPDATE cash_balance SET
-      note_500=?,
-      note_200=?,
-      note_100=?,
-      note_50=?,
-      note_20=?,
-      note_10=?
+        note_500=?,
+        note_200=?,
+        note_100=?,
+        note_50=?,
+        note_20=?,
+        note_10=?
       WHERE date=?`,
+
       [
         calc(balance.note_500, txn.note_500),
         calc(balance.note_200, txn.note_200),
@@ -61,11 +82,12 @@ export const deleteTransaction = async (
         calc(balance.note_50, txn.note_50),
         calc(balance.note_20, txn.note_20),
         calc(balance.note_10, txn.note_10),
-        today,
+        txnDate,
       ]
     );
 
-    // 👉 Delete transaction
+    // ================= DELETE =================
+
     await conn.query(
       "DELETE FROM transactions WHERE id=?",
       [id]

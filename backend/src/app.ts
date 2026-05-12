@@ -7,16 +7,24 @@ import cors from '@fastify/cors'
 const app = Fastify()
 
 app.register(cors, {
-    origin: "*"
+    origin: "*",
+
+    methods: [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+    ]
 })
 
 app.register(cashRoutes)
 app.register(transactionRoutes)
 app.register(reportRoutes)
 
-
 app.get('/', async (req, reply) => {
-    return { message: "Cash Management API Running 🚀" }
+    return {
+        message: "Cash Management API Running 🚀"
+    }
 })
 
 export default app
