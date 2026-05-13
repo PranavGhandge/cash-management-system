@@ -120,24 +120,18 @@ function Reports() {
     useEffect(() => {
 
         getTransactions();
+
         getBalance();
 
-        if (selectedDate) {
-
-            getReport();
-
-        }
+        getReport();
 
         const interval = setInterval(() => {
 
             getTransactions();
+
             getBalance();
 
-            if (selectedDate) {
-
-                getReport();
-
-            }
+            getReport();
 
         }, 2000);
 

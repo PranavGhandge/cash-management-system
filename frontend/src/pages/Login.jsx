@@ -50,7 +50,7 @@ function Login({ setIsLoggedIn }) {
         <div className="min-h-screen bg-gradient-to-br from-[#1e3c72] via-[#2a5298] to-[#4facfe] flex items-center justify-center px-4">
 
             <Toaster
-                position="bottom-right"
+                position="top-right"
 
                 toastOptions={{
 

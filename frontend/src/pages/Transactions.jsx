@@ -579,7 +579,7 @@ function Transactions() {
         <div className="ml-64 p-8 bg-[#f4f7fb] min-h-screen">
 
             <Toaster
-                position="bottom-right"
+                position="top-right"
 
                 toastOptions={{
 
