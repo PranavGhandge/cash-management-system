@@ -90,11 +90,23 @@ function Transactions() {
 
         try {
 
-            const res = await fetch(
-                API + "/transactions"
-            );
+            // ================= URL =================
+
+            const url = selectedDate
+
+                ? API +
+                "/transactions?date=" +
+                selectedDate
+
+                : API + "/transactions";
+
+            // ================= API CALL =================
+
+            const res = await fetch(url);
 
             const data = await res.json();
+
+            // ================= SET DATA =================
 
             setTransactions(data);
 
@@ -112,6 +124,15 @@ function Transactions() {
         getTransactions();
 
     }, []);
+
+
+    // ================= DATE CHANGE =================
+
+    useEffect(() => {
+
+        getTransactions();
+
+    }, [selectedDate]);
 
     // ================= OPENING SAVE =================
 

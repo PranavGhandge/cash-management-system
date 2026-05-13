@@ -16,15 +16,24 @@ function Reports() {
     const [selectedDate, setSelectedDate] =
         useState("");
 
+    const [reportData, setReportData] =
+        useState(null);
+
     // ================= GET TRANSACTIONS =================
 
     const getTransactions = async () => {
 
         try {
 
-            const res = await fetch(
-                API + "/transactions"
-            );
+            const url = selectedDate
+
+                ? API +
+                "/transactions?date=" +
+                selectedDate
+
+                : API + "/transactions";
+
+            const res = await fetch(url);
 
             const data = await res.json();
 
@@ -58,6 +67,54 @@ function Reports() {
         }
     };
 
+
+    // ================= GET Report =================
+
+
+    const getReport = async () => {
+
+        try {
+
+            const res = await fetch(
+
+                API +
+                "/report?date=" +
+                selectedDate
+
+            );
+
+            const data = await res.json();
+
+            if (res.ok) {
+
+                setReportData(data);
+
+            }
+
+        } catch (err) {
+
+            console.log(err);
+
+        }
+    };
+
+
+
+    // ================= DATE CHANGE =================
+
+    useEffect(() => {
+
+        getTransactions();
+
+        if (selectedDate) {
+
+            getReport();
+
+        }
+
+    }, [selectedDate]);
+
+
     // ================= AUTO REFRESH =================
 
     useEffect(() => {
@@ -65,21 +122,34 @@ function Reports() {
         getTransactions();
         getBalance();
 
+        if (selectedDate) {
+
+            getReport();
+
+        }
+
         const interval = setInterval(() => {
 
             getTransactions();
             getBalance();
 
+            if (selectedDate) {
+
+                getReport();
+
+            }
+
         }, 2000);
 
         return () => clearInterval(interval);
 
-    }, []);
+    }, [selectedDate]);
 
     // ================= TOTALS =================
 
-    const totalCash =
-        balance?.total_amount || 0;
+    const totalCash = selectedDate
+        ? reportData?.closing_balance || 0
+        : balance?.total_amount || 0;
 
     const totalDeposit = transactions
         .filter((t) => t.type === "deposit")
@@ -111,14 +181,49 @@ function Reports() {
             return transactionDate === selectedDate;
         });
 
-  
-        // ================= PDF DOWNLOAD =================
+
+    // ================= PDF DOWNLOAD =================
 
     const downloadPDF = () => {
 
+        // ================= FILTER DATE =================
+
+        const reportTransactions = selectedDate
+            ? transactions.filter((item) => {
+
+                const itemDate =
+                    new Date(item.created_at)
+                        .toISOString()
+                        .split("T")[0];
+
+                return itemDate === selectedDate;
+
+            })
+            : transactions;
+
+        // ================= CALCULATIONS =================
+
+        const reportDeposit = reportTransactions
+            .filter((t) => t.type === "deposit")
+            .reduce(
+                (sum, item) =>
+                    sum + Number(item.amount),
+                0
+            );
+
+        const reportWithdrawal = reportTransactions
+            .filter(
+                (t) => t.type === "withdrawal"
+            )
+            .reduce(
+                (sum, item) =>
+                    sum + Number(item.amount),
+                0
+            );
+
         const doc = new jsPDF();
 
-        // HEADER
+        // ================= HEADER =================
 
         doc.setFillColor(30, 60, 114);
 
@@ -134,20 +239,20 @@ function Reports() {
             20
         );
 
-        // DATE
+        // ================= DATE =================
 
         doc.setTextColor(0);
 
         doc.setFontSize(13);
 
         doc.text(
-            `Selected Date : ${selectedDate || "All Dates"
+            `Selected Date : ${selectedDate || "Today"
             }`,
             14,
             42
         );
 
-        // ================= SUMMARY CARDS =================
+        // ================= SUMMARY =================
 
         // Deposit
 
@@ -168,7 +273,7 @@ function Reports() {
         doc.setFontSize(12);
 
         doc.text(
-            `Deposit : Rs. ${totalDeposit}`,
+            `Deposit : Rs. ${reportDeposit}`,
             20,
             66
         );
@@ -188,7 +293,7 @@ function Reports() {
         );
 
         doc.text(
-            `Withdraw : Rs. ${totalWithdrawal}`,
+            `Withdraw : Rs. ${reportWithdrawal}`,
             86,
             66
         );
@@ -208,7 +313,7 @@ function Reports() {
         );
 
         doc.text(
-            `Balance : Rs. ${totalCash}`,
+            `Balance : Rs. ${reportData?.closing_balance || 0}`,
             152,
             66
         );
@@ -228,37 +333,37 @@ function Reports() {
         doc.setFontSize(12);
 
         doc.text(
-            `500 : ${balance?.notes?.note_500 || 0}`,
+            `500 : ${reportData?.notes?.note_500 || 0}`,
             16,
             108
         );
 
         doc.text(
-            `200 : ${balance?.notes?.note_200 || 0}`,
+            `200 : ${reportData?.notes?.note_200 || 0}`,
             16,
             118
         );
 
         doc.text(
-            `100 : ${balance?.notes?.note_100 || 0}`,
+            `100 : ${reportData?.notes?.note_100 || 0}`,
             16,
             128
         );
 
         doc.text(
-            `50 : ${balance?.notes?.note_50 || 0}`,
+            `50 : ${reportData?.notes?.note_50 || 0}`,
             80,
             108
         );
 
         doc.text(
-            `20 : ${balance?.notes?.note_20 || 0}`,
+            `20 : ${reportData?.notes?.note_20 || 0}`,
             80,
             118
         );
 
         doc.text(
-            `10 : ${balance?.notes?.note_10 || 0}`,
+            `10 : ${reportData?.notes?.note_10 || 0}`,
             80,
             128
         );
@@ -277,7 +382,7 @@ function Reports() {
                 "Time"
             ]],
 
-            body: filteredTransactions.map(
+            body: reportTransactions.map(
                 (item) => [
 
                     item.customer_name,
@@ -327,9 +432,11 @@ function Reports() {
             pageHeight - 10
         );
 
-        // SAVE
+        // ================= SAVE =================
 
-        doc.save("cash-report.pdf");
+        doc.save(
+            `cash-report-${selectedDate || "today"}.pdf`
+        );
     };
 
     // ================= BANK TOTAL =================
@@ -358,41 +465,41 @@ function Reports() {
 
             <div className="bg-white rounded-2xl p-6 shadow flex items-center justify-between">
 
-    <div>
+                <div>
 
-        <h1 className="text-3xl font-bold">
-            Reports & Analytics
-        </h1>
+                    <h1 className="text-3xl font-bold">
+                        Reports & Analytics
+                    </h1>
 
-        <p className="text-gray-500 mt-2">
-            Download and view reports
-        </p>
+                    <p className="text-gray-500 mt-2">
+                        Download and view reports
+                    </p>
 
-    </div>
+                </div>
 
-    {/* RIGHT SIDE */}
+                {/* RIGHT SIDE */}
 
-    <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4">
 
-        <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) =>
-                setSelectedDate(e.target.value)
-            }
-            className="border p-3 rounded-xl outline-none"
-        />
+                    <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) =>
+                            setSelectedDate(e.target.value)
+                        }
+                        className="border p-3 rounded-xl outline-none"
+                    />
 
-        <button
-            onClick={downloadPDF}
-            className="bg-blue-900 hover:bg-blue-800 text-white px-5 py-3 rounded-xl font-bold"
-        >
-            Download PDF
-        </button>
+                    <button
+                        onClick={downloadPDF}
+                        className="bg-blue-900 hover:bg-blue-800 text-white px-5 py-3 rounded-xl font-bold"
+                    >
+                        Download PDF
+                    </button>
 
-    </div>
+                </div>
 
-</div>
+            </div>
 
             {/* SUMMARY */}
 

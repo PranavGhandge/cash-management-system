@@ -197,11 +197,11 @@ function Dashboard() {
 
             {/* ================= TOP CARDS ================= */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-5 mb-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-5 mb-6">
 
                 {/* CURRENT CASH */}
 
-                <div className="bg-white rounded-2xl shadow p-5 h-[180px] xl:col-span-3">
+                <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
 
                     <h2 className="flex items-center gap-2 text-xl font-bold">
 
@@ -221,9 +221,9 @@ function Dashboard() {
 
                 {/* REMAINING NOTES */}
 
-                <div className="bg-white rounded-2xl shadow p-5 h-[180px] xl:col-span-3">
+                <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
 
-                    <h2 className="flex items-center gap-2 text-xl font-bold mb-3">
+                    <h2 className="flex items-center gap-2 text-1xl font-bold mb-5">
 
                         <FaUniversity className="text-blue-700 text-2xl" />
 
@@ -231,21 +231,39 @@ function Dashboard() {
 
                     </h2>
 
-                    {/* 3 - 3 NOTES */}
+                    {/* NOTES */}
 
-                    <div className="grid grid-cols-2 gap-y-4 text-gray-700 text-base font-medium">
+                    <div className="grid grid-cols-2 gap-y-5 gap-x-6 text-lg font-medium text-gray-700">
 
-                        <div>₹500 : {balance?.notes?.note_500 || 0}</div>
+                        <div className="flex justify-between">
+                            <span>₹500 :</span>
+                            <span>{balance?.notes?.note_500 || 0}</span>
+                        </div>
 
-                        <div>₹200 : {balance?.notes?.note_200 || 0}</div>
+                        <div className="flex justify-between">
+                            <span>₹200 :</span>
+                            <span>{balance?.notes?.note_200 || 0}</span>
+                        </div>
 
-                        <div>₹100 : {balance?.notes?.note_100 || 0}</div>
+                        <div className="flex justify-between">
+                            <span>₹100 :</span>
+                            <span>{balance?.notes?.note_100 || 0}</span>
+                        </div>
 
-                        <div>₹50 : {balance?.notes?.note_50 || 0}</div>
+                        <div className="flex justify-between">
+                            <span>₹50 :</span>
+                            <span>{balance?.notes?.note_50 || 0}</span>
+                        </div>
 
-                        <div>₹20 : {balance?.notes?.note_20 || 0}</div>
+                        <div className="flex justify-between">
+                            <span>₹20 :</span>
+                            <span>{balance?.notes?.note_20 || 0}</span>
+                        </div>
 
-                        <div>₹10 : {balance?.notes?.note_10 || 0}</div>
+                        <div className="flex justify-between">
+                            <span>₹10 :</span>
+                            <span>{balance?.notes?.note_10 || 0}</span>
+                        </div>
 
                     </div>
 
@@ -253,7 +271,7 @@ function Dashboard() {
 
                 {/* DEPOSIT */}
 
-                <div className="bg-white rounded-2xl shadow p-5 h-[180px] xl:col-span-3">
+                <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
 
                     <h2 className="flex items-center gap-2 text-xl font-bold">
 
@@ -273,7 +291,7 @@ function Dashboard() {
 
                 {/* WITHDRAWAL */}
 
-                <div className="bg-white rounded-2xl shadow p-5 h-[180px] xl:col-span-3">
+               <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
 
                     <h2 className="flex items-center gap-2 text-xl font-bold">
 
