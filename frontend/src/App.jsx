@@ -24,7 +24,7 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] =
     useState(
-      localStorage.getItem("isLoggedIn")
+      sessionStorage.getItem("isLoggedIn")
       === "true"
     );
 
@@ -96,6 +96,7 @@ function App() {
 
   }, [isLoggedIn]);
 
+  // ================= AUTO LOGOUT =================
 
   useEffect(() => {
 
@@ -107,16 +108,16 @@ function App() {
 
       timer = setTimeout(() => {
 
-        localStorage.removeItem(
+        sessionStorage.removeItem(
           "isLoggedIn"
         );
 
         setIsLoggedIn(false);
 
-      }, 10 * 60 * 1000); // 10 minutes
+      }, 10 * 60 * 1000);
+
     };
 
-    // User activity events
     window.addEventListener(
       "mousemove",
       resetTimer
@@ -196,15 +197,15 @@ function App() {
 
     <BrowserRouter>
 
-      <div className="bg-[#f4f7fb] min-h-screen flex">
+      <div className="bg-[#f4f7fb] min-h-screen">
 
         {/* SIDEBAR */}
 
         <Sidebar />
 
-        {/* MAIN */}
+        {/* MAIN CONTENT */}
 
-        <div className="flex-1 p-6">
+        <div className="lg:ml-64 p-4 sm:p-6">
 
           <Routes>
 

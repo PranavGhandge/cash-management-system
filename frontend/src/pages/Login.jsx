@@ -26,7 +26,7 @@ function Login({ setIsLoggedIn }) {
             form.password === "1234"
         ) {
 
-            localStorage.setItem(
+            sessionStorage.setItem(
                 "isLoggedIn",
                 "true"
             );
@@ -47,7 +47,7 @@ function Login({ setIsLoggedIn }) {
 
     return (
 
-        <div className="min-h-screen bg-gradient-to-br from-[#1e3c72] via-[#2a5298] to-[#4facfe] flex items-center justify-center px-4">
+        <div className="min-h-screen bg-gradient-to-br from-[#1e3c72] via-[#2a5298] to-[#4facfe] flex items-center justify-center px-4 py-6">
 
             <Toaster
                 position="top-right"
@@ -57,7 +57,7 @@ function Login({ setIsLoggedIn }) {
                     duration: 3000,
 
                     style: {
-                        minWidth: "320px",
+                        minWidth: "280px",
                         maxWidth: "320px",
                         padding: "16px 20px",
                         borderRadius: "14px",
@@ -80,23 +80,23 @@ function Login({ setIsLoggedIn }) {
                 }}
             />
 
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 w-full max-w-md p-8 rounded-3xl shadow-2xl">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl">
 
                 {/* LOGO */}
 
                 <div className="flex flex-col items-center mb-8">
 
-                    <div className="bg-yellow-400 p-5 rounded-full shadow-lg">
+                    <div className="bg-yellow-400 p-4 sm:p-5 rounded-full shadow-lg">
 
-                        <FaWallet className="text-5xl text-[#1e3c72]" />
+                        <FaWallet className="text-4xl sm:text-5xl text-[#1e3c72]" />
 
                     </div>
 
-                    <h1 className="text-4xl font-bold text-white mt-5">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-white mt-5">
                         CMS
                     </h1>
 
-                    <p className="text-white/80 mt-2 text-center">
+                    <p className="text-white/80 mt-2 text-center text-sm sm:text-base">
                         Cash Management System
                     </p>
 
@@ -113,7 +113,7 @@ function Login({ setIsLoggedIn }) {
 
                     <div className="relative">
 
-                        <FaUser className="absolute top-4 left-4 text-white/70" />
+                        <FaUser className="absolute top-4 left-4 text-white/70 text-sm sm:text-base" />
 
                         <input
                             type="text"
@@ -128,7 +128,7 @@ function Login({ setIsLoggedIn }) {
                                 })
                             }
 
-                            className="w-full bg-white/10 border border-white/20 text-white placeholder-white/60 rounded-2xl pl-12 pr-4 py-3 outline-none focus:border-yellow-400 transition"
+                            className="w-full bg-white/10 border border-white/20 text-white placeholder-white/60 rounded-2xl pl-12 pr-4 py-3 text-sm sm:text-base outline-none focus:border-yellow-400 transition"
                         />
 
                     </div>
@@ -137,7 +137,7 @@ function Login({ setIsLoggedIn }) {
 
                     <div className="relative">
 
-                        <FaLock className="absolute top-4 left-4 text-white/70" />
+                        <FaLock className="absolute top-4 left-4 text-white/70 text-sm sm:text-base" />
 
                         <input
                             type="password"
@@ -152,7 +152,7 @@ function Login({ setIsLoggedIn }) {
                                 })
                             }
 
-                            className="w-full bg-white/10 border border-white/20 text-white placeholder-white/60 rounded-2xl pl-12 pr-4 py-3 outline-none focus:border-yellow-400 transition"
+                            className="w-full bg-white/10 border border-white/20 text-white placeholder-white/60 rounded-2xl pl-12 pr-4 py-3 text-sm sm:text-base outline-none focus:border-yellow-400 transition"
                         />
 
                     </div>
@@ -161,7 +161,7 @@ function Login({ setIsLoggedIn }) {
 
                     <button
                         type="submit"
-                        className="w-full bg-yellow-400 hover:bg-yellow-300 text-[#1e3c72] py-3 rounded-2xl font-bold text-lg transition shadow-lg"
+                        className="w-full bg-yellow-400 hover:bg-yellow-300 text-[#1e3c72] py-3 rounded-2xl font-bold text-base sm:text-lg transition shadow-lg"
                     >
                         Login
                     </button>
@@ -170,7 +170,7 @@ function Login({ setIsLoggedIn }) {
 
                 {/* FOOTER */}
 
-                <p className="text-center text-white/70 text-sm mt-8">
+                <p className="text-center text-white/70 text-xs sm:text-sm mt-8">
                     Secure Cash Management Dashboard
                 </p>
 

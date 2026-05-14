@@ -28,7 +28,7 @@ export const createOpeningBalance = async (
 
     if (rows.length > 0) {
       return reply.status(400).send({
-        message: "Opening balance already exists for today ❌",
+        message: "Opening balance already exists for today .",
       });
     }
 

@@ -15,7 +15,7 @@ export const getTodayBalance = async (
 
     if (rows.length === 0) {
       return reply.status(404).send({
-        message: "No data found for today ❌",
+        message: "No data found for today .",
       });
     }
 

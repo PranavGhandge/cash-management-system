@@ -52,9 +52,15 @@ function Reports() {
 
         try {
 
-            const res = await fetch(
-                API + "/balance"
-            );
+            const url = selectedDate
+
+                ? API +
+                "/balance?date=" +
+                selectedDate
+
+                : API + "/balance";
+
+            const res = await fetch(url);
 
             const data = await res.json();
 
@@ -67,21 +73,21 @@ function Reports() {
         }
     };
 
-
-    // ================= GET Report =================
-
+    // ================= GET REPORT =================
 
     const getReport = async () => {
 
         try {
 
-            const res = await fetch(
+            const url = selectedDate
 
-                API +
+                ? API +
                 "/report?date=" +
                 selectedDate
 
-            );
+                : API + "/report";
+
+            const res = await fetch(url);
 
             const data = await res.json();
 
@@ -98,24 +104,7 @@ function Reports() {
         }
     };
 
-
-
-    // ================= DATE CHANGE =================
-
-    useEffect(() => {
-
-        getTransactions();
-
-        if (selectedDate) {
-
-            getReport();
-
-        }
-
-    }, [selectedDate]);
-
-
-    // ================= AUTO REFRESH =================
+    // ================= LOAD DATA =================
 
     useEffect(() => {
 
@@ -141,9 +130,8 @@ function Reports() {
 
     // ================= TOTALS =================
 
-    const totalCash = selectedDate
-        ? reportData?.closing_balance || 0
-        : balance?.total_amount || 0;
+    const totalCash =
+        reportData?.closing_balance || 0;
 
     const totalDeposit = transactions
         .filter((t) => t.type === "deposit")
@@ -161,41 +149,11 @@ function Reports() {
             0
         );
 
-
-    const filteredTransactions =
-        transactions.filter((item) => {
-
-            if (!selectedDate) return true;
-
-            const transactionDate =
-                new Date(item.created_at)
-                    .toISOString()
-                    .split("T")[0];
-
-            return transactionDate === selectedDate;
-        });
-
-
     // ================= PDF DOWNLOAD =================
 
     const downloadPDF = () => {
 
-        // ================= FILTER DATE =================
-
-        const reportTransactions = selectedDate
-            ? transactions.filter((item) => {
-
-                const itemDate =
-                    new Date(item.created_at)
-                        .toISOString()
-                        .split("T")[0];
-
-                return itemDate === selectedDate;
-
-            })
-            : transactions;
-
-        // ================= CALCULATIONS =================
+        const reportTransactions = transactions;
 
         const reportDeposit = reportTransactions
             .filter((t) => t.type === "deposit")
@@ -225,11 +183,11 @@ function Reports() {
 
         doc.setTextColor(255, 255, 255);
 
-        doc.setFontSize(24);
+        doc.setFontSize(18);
 
         doc.text(
             "Daily Cash Management Report",
-            55,
+            35,
             20
         );
 
@@ -237,7 +195,7 @@ function Reports() {
 
         doc.setTextColor(0);
 
-        doc.setFontSize(13);
+        doc.setFontSize(12);
 
         doc.text(
             `Selected Date : ${selectedDate || "Today"
@@ -253,9 +211,9 @@ function Reports() {
         doc.setFillColor(22, 163, 74);
 
         doc.roundedRect(
-            14,
+            10,
             52,
-            52,
+            55,
             24,
             4,
             4,
@@ -264,11 +222,11 @@ function Reports() {
 
         doc.setTextColor(255);
 
-        doc.setFontSize(12);
+        doc.setFontSize(11);
 
         doc.text(
             `Deposit : Rs. ${reportDeposit}`,
-            20,
+            15,
             66
         );
 
@@ -277,9 +235,9 @@ function Reports() {
         doc.setFillColor(220, 38, 38);
 
         doc.roundedRect(
-            80,
+            77,
             52,
-            52,
+            55,
             24,
             4,
             4,
@@ -288,7 +246,7 @@ function Reports() {
 
         doc.text(
             `Withdraw : Rs. ${reportWithdrawal}`,
-            86,
+            82,
             66
         );
 
@@ -297,9 +255,9 @@ function Reports() {
         doc.setFillColor(37, 99, 235);
 
         doc.roundedRect(
-            146,
+            144,
             52,
-            52,
+            55,
             24,
             4,
             4,
@@ -308,7 +266,7 @@ function Reports() {
 
         doc.text(
             `Balance : Rs. ${reportData?.closing_balance || 0}`,
-            152,
+            149,
             66
         );
 
@@ -316,7 +274,7 @@ function Reports() {
 
         doc.setTextColor(0);
 
-        doc.setFontSize(16);
+        doc.setFontSize(15);
 
         doc.text(
             "Remaining Notes",
@@ -324,7 +282,7 @@ function Reports() {
             95
         );
 
-        doc.setFontSize(12);
+        doc.setFontSize(11);
 
         doc.text(
             `500 : ${reportData?.notes?.note_500 || 0}`,
@@ -395,15 +353,17 @@ function Reports() {
 
             theme: "grid",
 
+            styles: {
+                fontSize: 9,
+            },
+
             headStyles: {
                 fillColor: [30, 60, 114],
                 halign: "center",
-                fontSize: 11,
             },
 
             bodyStyles: {
                 halign: "center",
-                fontSize: 10,
             },
 
             alternateRowStyles: {
@@ -433,39 +393,21 @@ function Reports() {
         );
     };
 
-    // ================= BANK TOTAL =================
-
-    const bankTotals = {};
-
-    transactions.forEach((item) => {
-
-        if (!bankTotals[item.bank_name]) {
-
-            bankTotals[item.bank_name] = 0;
-
-        }
-
-        bankTotals[item.bank_name] += Number(
-            item.amount
-        );
-
-    });
-
     return (
 
-        <div className="ml-64 p-8 bg-[#f4f7fb] min-h-screen space-y-6">
+        <div className="bg-[#f4f7fb] min-h-screen space-y-6">
 
-            {/* TOP */}
+            {/* ================= TOP ================= */}
 
-            <div className="bg-white rounded-2xl p-6 shadow flex items-center justify-between">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow flex flex-col lg:flex-row gap-5 lg:items-center lg:justify-between">
 
                 <div>
 
-                    <h1 className="text-3xl font-bold">
+                    <h1 className="text-2xl sm:text-3xl font-bold">
                         Reports & Analytics
                     </h1>
 
-                    <p className="text-gray-500 mt-2">
+                    <p className="text-gray-500 mt-2 text-sm sm:text-base">
                         Download and view reports
                     </p>
 
@@ -473,7 +415,7 @@ function Reports() {
 
                 {/* RIGHT SIDE */}
 
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto">
 
                     <input
                         type="date"
@@ -481,12 +423,12 @@ function Reports() {
                         onChange={(e) =>
                             setSelectedDate(e.target.value)
                         }
-                        className="border p-3 rounded-xl outline-none"
+                        className="border p-3 rounded-xl outline-none w-full sm:w-auto"
                     />
 
                     <button
                         onClick={downloadPDF}
-                        className="bg-blue-900 hover:bg-blue-800 text-white px-5 py-3 rounded-xl font-bold"
+                        className="bg-blue-900 hover:bg-blue-800 text-white px-5 py-3 rounded-xl font-bold w-full sm:w-auto"
                     >
                         Download PDF
                     </button>
@@ -495,9 +437,9 @@ function Reports() {
 
             </div>
 
-            {/* SUMMARY */}
+            {/* ================= SUMMARY ================= */}
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
                 <div className="bg-green-500 text-white rounded-2xl p-6 shadow">
 
@@ -505,7 +447,7 @@ function Reports() {
                         Total Deposit
                     </h2>
 
-                    <h1 className="text-4xl font-bold mt-3">
+                    <h1 className="text-3xl sm:text-4xl font-bold mt-3 break-words">
                         ₹ {totalDeposit}
                     </h1>
 
@@ -517,7 +459,7 @@ function Reports() {
                         Total Withdrawal
                     </h2>
 
-                    <h1 className="text-4xl font-bold mt-3">
+                    <h1 className="text-3xl sm:text-4xl font-bold mt-3 break-words">
                         ₹ {totalWithdrawal}
                     </h1>
 
@@ -529,11 +471,96 @@ function Reports() {
                         Current Balance
                     </h2>
 
-                    <h1 className="text-4xl font-bold mt-3">
+                    <h1 className="text-3xl sm:text-4xl font-bold mt-3 break-words">
                         ₹ {totalCash}
                     </h1>
 
                 </div>
+
+            </div>
+
+            {/* ================= TRANSACTION TABLE ================= */}
+
+            <div className="bg-white rounded-2xl shadow p-4 sm:p-6 overflow-x-auto">
+
+                <h2 className="text-2xl font-bold mb-5">
+                    Transactions
+                </h2>
+
+                <table className="w-full min-w-[700px] border-collapse">
+
+                    <thead>
+
+                        <tr className="bg-[#1e3c72] text-white">
+
+                            <th className="p-4">
+                                Customer
+                            </th>
+
+                            <th className="p-4">
+                                Bank
+                            </th>
+
+                            <th className="p-4">
+                                Type
+                            </th>
+
+                            <th className="p-4">
+                                Amount
+                            </th>
+
+                            <th className="p-4">
+                                Time
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {transactions.map((item) => (
+
+                            <tr
+                                key={item.id}
+                                className="border-b text-center"
+                            >
+
+                                <td className="p-4">
+                                    {item.customer_name}
+                                </td>
+
+                                <td className="p-4">
+                                    {item.bank_name}
+                                </td>
+
+                                <td
+                                    className={`p-4 font-bold ${item.type ===
+                                            "deposit"
+                                            ? "text-green-600"
+                                            : "text-red-600"
+                                        }`}
+                                >
+                                    {item.type}
+                                </td>
+
+                                <td className="p-4">
+                                    ₹ {item.amount}
+                                </td>
+
+                                <td className="p-4">
+                                    {new Date(
+                                        item.created_at
+                                    ).toLocaleTimeString()}
+                                </td>
+
+                            </tr>
+
+                        ))}
+
+                    </tbody>
+
+                </table>
 
             </div>
 

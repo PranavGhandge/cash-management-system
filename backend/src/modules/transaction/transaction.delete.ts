@@ -23,7 +23,7 @@ export const deleteTransaction = async (
 
     if (rows.length === 0) {
 
-      throw new Error("Transaction not found ❌");
+      throw new Error("Transaction not found .");
 
     }
 
@@ -43,7 +43,7 @@ export const deleteTransaction = async (
 
     if (balanceRows.length === 0) {
 
-      throw new Error("Balance not found ❌");
+      throw new Error("Balance not found .");
 
     }
 

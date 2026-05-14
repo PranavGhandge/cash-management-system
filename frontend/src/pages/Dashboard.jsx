@@ -28,7 +28,8 @@ const API = "http://localhost:3000";
 
 function Dashboard() {
 
-    const [balance, setBalance] = useState(null);
+    const [balance, setBalance] =
+        useState(null);
 
     const [transactions, setTransactions] =
         useState([]);
@@ -46,7 +47,9 @@ function Dashboard() {
             const data = await res.json();
 
             if (res.ok) {
+
                 setBalance(data);
+
             }
 
         } catch (err) {
@@ -111,6 +114,7 @@ function Dashboard() {
     // ================= PIE DATA =================
 
     const pieData = [
+
         {
             name: "Deposit",
             value: totalDeposit,
@@ -180,38 +184,37 @@ function Dashboard() {
 
     return (
 
-        <div className="ml-64 p-6 bg-[#f4f7fb] min-h-screen overflow-hidden">
+        <div className="bg-[#f4f7fb] min-h-screen overflow-hidden">
 
             {/* ================= HEADER ================= */}
 
             <div className="flex items-center gap-3 mb-6">
 
-                <MdDashboard className="text-blue-900 text-4xl" />
+                <MdDashboard className="text-blue-900 text-3xl sm:text-4xl" />
 
-                <h1 className="text-4xl font-bold">
+                <h1 className="text-3xl sm:text-4xl font-bold">
                     Dashboard
                 </h1>
 
             </div>
 
-
             {/* ================= TOP CARDS ================= */}
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-5 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-12 gap-5 mb-6">
 
                 {/* CURRENT CASH */}
 
                 <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
 
-                    <h2 className="flex items-center gap-2 text-xl font-bold">
+                    <h2 className="flex items-center gap-2 text-lg sm:text-xl font-bold">
 
-                        <FaMoneyBillWave className="text-green-600 text-3xl" />
+                        <FaMoneyBillWave className="text-green-600 text-2xl sm:text-3xl" />
 
                         Current Cash
 
                     </h2>
 
-                    <h1 className="text-4xl font-bold text-green-600 mt-6">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-green-600 mt-6 break-words">
 
                         ₹ {totalCash}
 
@@ -223,7 +226,7 @@ function Dashboard() {
 
                 <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
 
-                    <h2 className="flex items-center gap-2 text-1xl font-bold mb-5">
+                    <h2 className="flex items-center gap-2 text-lg sm:text-xl font-bold mb-5">
 
                         <FaUniversity className="text-blue-700 text-2xl" />
 
@@ -231,9 +234,7 @@ function Dashboard() {
 
                     </h2>
 
-                    {/* NOTES */}
-
-                    <div className="grid grid-cols-2 gap-y-5 gap-x-6 text-lg font-medium text-gray-700">
+                    <div className="grid grid-cols-2 gap-y-4 gap-x-4 text-sm sm:text-lg font-medium text-gray-700">
 
                         <div className="flex justify-between">
                             <span>₹500 :</span>
@@ -273,15 +274,15 @@ function Dashboard() {
 
                 <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
 
-                    <h2 className="flex items-center gap-2 text-xl font-bold">
+                    <h2 className="flex items-center gap-2 text-lg sm:text-xl font-bold">
 
-                        <FaArrowDown className="text-green-600 text-3xl" />
+                        <FaArrowDown className="text-green-600 text-2xl sm:text-3xl" />
 
                         Deposit
 
                     </h2>
 
-                    <h1 className="text-4xl font-bold mt-6">
+                    <h1 className="text-3xl sm:text-4xl font-bold mt-6 break-words">
 
                         ₹ {totalDeposit}
 
@@ -291,17 +292,17 @@ function Dashboard() {
 
                 {/* WITHDRAWAL */}
 
-               <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
+                <div className="bg-white rounded-2xl shadow p-5 min-h-[210px] xl:col-span-3">
 
-                    <h2 className="flex items-center gap-2 text-xl font-bold">
+                    <h2 className="flex items-center gap-2 text-lg sm:text-xl font-bold">
 
-                        <FaArrowUp className="text-red-600 text-3xl" />
+                        <FaArrowUp className="text-red-600 text-2xl sm:text-3xl" />
 
                         Withdrawal
 
                     </h2>
 
-                    <h1 className="text-4xl font-bold mt-6">
+                    <h1 className="text-3xl sm:text-4xl font-bold mt-6 break-words">
 
                         ₹ {totalWithdrawal}
 
@@ -317,13 +318,13 @@ function Dashboard() {
 
                 {/* PIE CHART */}
 
-                <div className="bg-white rounded-2xl shadow p-5 h-[340px]">
+                <div className="bg-white rounded-2xl shadow p-4 sm:p-5 h-[340px]">
 
                     <div className="flex items-center gap-3 mb-4">
 
-                        <BiBarChartAlt2 className="text-blue-700 text-3xl" />
+                        <BiBarChartAlt2 className="text-blue-700 text-2xl sm:text-3xl" />
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             Deposit vs Withdrawal
                         </h2>
 
@@ -344,12 +345,14 @@ function Dashboard() {
 
                                     {pieData.map(
                                         (entry, index) => (
+
                                             <Cell
                                                 key={index}
                                                 fill={
                                                     COLORS[index]
                                                 }
                                             />
+
                                         )
                                     )}
 
@@ -367,21 +370,21 @@ function Dashboard() {
 
                 {/* BAR CHART */}
 
-                <div className="bg-white rounded-2xl shadow p-5 h-[340px]">
+                <div className="bg-white rounded-2xl shadow p-4 sm:p-5 h-[340px]">
 
                     <div className="flex items-center gap-3 mb-4">
 
-                        <FaUniversity className="text-indigo-700 text-3xl" />
+                        <FaUniversity className="text-indigo-700 text-2xl sm:text-3xl" />
 
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             Bank Wise Transactions
                         </h2>
 
                     </div>
 
-                    <div className="w-full h-[220px]">
+                    <div className="w-full h-[220px] overflow-x-auto">
 
-                        <ResponsiveContainer>
+                        <ResponsiveContainer width="100%" height="100%">
 
                             <BarChart data={bankData}>
 
@@ -409,6 +412,7 @@ function Dashboard() {
                 </div>
 
             </div>
+
         </div>
     );
 }

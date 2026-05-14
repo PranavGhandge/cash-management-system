@@ -576,17 +576,16 @@ function Transactions() {
 
     return (
 
-        <div className="ml-64 p-8 bg-[#f4f7fb] min-h-screen">
+        <div className="bg-[#f4f7fb] min-h-screen">
 
             <Toaster
                 position="top-right"
-
                 toastOptions={{
 
                     duration: 3000,
 
                     style: {
-                        minWidth: "340px",
+                        minWidth: "300px",
                         maxWidth: "340px",
                         padding: "16px 20px",
                         borderRadius: "16px",
@@ -611,9 +610,12 @@ function Transactions() {
 
             {/* ================= HEADER ================= */}
 
-            <h1 className="flex items-center gap-3 text-4xl font-bold mb-8">
+            <h1 className="flex items-center gap-3 text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 lg:mb-8">
+
                 <FaExchangeAlt className="text-blue-700" />
+
                 Transactions
+
             </h1>
 
             {/* ================= OPENING ================= */}
@@ -621,23 +623,29 @@ function Transactions() {
             {
                 balance?.total_amount > 0 ? (
 
-                    <div className="bg-green-100 text-green-700 p-5 rounded-2xl shadow font-bold flex items-center justify-center gap-3">
+                    <div className="bg-green-100 text-green-700 p-4 sm:p-5 rounded-2xl shadow font-bold flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
+
                         <FaCheckCircle className="text-2xl" />
+
                         <span>
                             Today Opening Balance Already Added
                         </span>
+
                     </div>
 
                 ) : (
 
-                    <div className="bg-white p-6 rounded-2xl shadow">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow">
 
-                        <h2 className="flex items-center gap-2 text-2xl font-bold mb-5">
+                        <h2 className="flex items-center gap-2 text-xl sm:text-2xl font-bold mb-5">
+
                             <FaUniversity className="text-blue-700" />
+
                             Opening Balance
+
                         </h2>
 
-                        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
 
                             {[
                                 "500",
@@ -653,6 +661,7 @@ function Transactions() {
                                     type="number"
                                     placeholder={`₹${note}`}
                                     value={opening[`note_${note}`]}
+
                                     onChange={(e) =>
                                         setOpening({
                                             ...opening,
@@ -660,7 +669,8 @@ function Transactions() {
                                                 e.target.value,
                                         })
                                     }
-                                    className="border rounded-xl p-4"
+
+                                    className="border rounded-xl p-3 sm:p-4 outline-none w-full"
                                 />
 
                             ))}
@@ -669,7 +679,7 @@ function Transactions() {
 
                         <button
                             onClick={handleOpening}
-                            className="mt-5 bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded-xl font-bold"
+                            className="mt-5 w-full sm:w-auto bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded-xl font-bold"
                         >
                             Save Opening
                         </button>
@@ -681,14 +691,17 @@ function Transactions() {
 
             {/* ================= TRANSACTION FORM ================= */}
 
-            <div className="bg-white rounded-2xl shadow p-6 mt-7 mb-8">
+            <div className="bg-white rounded-2xl shadow p-4 sm:p-6 mt-7 mb-8">
 
-                <h2 className="flex items-center gap-2 text-2xl font-bold mb-5">
+                <h2 className="flex items-center gap-2 text-xl sm:text-2xl font-bold mb-5">
+
                     <FaPlusCircle className="text-green-600" />
+
                     Add Transaction
+
                 </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
                     <input
                         type="text"
@@ -704,7 +717,7 @@ function Transactions() {
                             })
                         }
 
-                        className="border p-3 rounded-xl outline-none"
+                        className="border p-3 rounded-xl outline-none w-full"
                     />
 
                     <select
@@ -719,7 +732,7 @@ function Transactions() {
                             })
                         }
 
-                        className="border p-3 rounded-xl outline-none"
+                        className="border p-3 rounded-xl outline-none w-full"
                     >
 
                         <option value="">
@@ -750,7 +763,7 @@ function Transactions() {
                             })
                         }
 
-                        className="border p-3 rounded-xl outline-none"
+                        className="border p-3 rounded-xl outline-none w-full"
                     >
 
                         <option value="">
@@ -770,7 +783,7 @@ function Transactions() {
 
                 {/* NOTES */}
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-5">
 
                     {[
                         "500",
@@ -799,7 +812,7 @@ function Transactions() {
                                 })
                             }
 
-                            className="border p-3 rounded-xl outline-none"
+                            className="border p-3 rounded-xl outline-none w-full"
                         />
                     ))}
                 </div>
@@ -808,15 +821,17 @@ function Transactions() {
 
                 <div className="mt-6">
 
-                    <h2 className="text-3xl font-bold text-green-600">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-green-600">
+
                         ₹ {transactionTotal}
+
                     </h2>
 
                 </div>
 
                 <button
                     onClick={handleTxn}
-                    className="mt-5 bg-green-600 text-white px-6 py-3 rounded-xl font-bold"
+                    className="mt-5 w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-bold"
                 >
                     Submit Transaction
                 </button>
@@ -824,16 +839,19 @@ function Transactions() {
 
             {/* ================= TABLE ================= */}
 
-            <div className="bg-white rounded-2xl shadow p-6">
+            <div className="bg-white rounded-2xl shadow p-4 sm:p-6">
 
-                <h2 className="flex items-center gap-2 text-2xl font-bold mb-5">
+                <h2 className="flex items-center gap-2 text-xl sm:text-2xl font-bold mb-5">
+
                     <FaHistory className="text-purple-600" />
+
                     Transactions
+
                 </h2>
 
                 {/* FILTERS */}
 
-                <div className="flex flex-col md:flex-row gap-4 mb-5">
+                <div className="flex flex-col lg:flex-row gap-4 mb-5">
 
                     <input
                         type="text"
@@ -856,7 +874,7 @@ function Transactions() {
                             )
                         }
 
-                        className="border p-3 rounded-xl outline-none"
+                        className="border p-3 rounded-xl outline-none w-full lg:w-60"
                     >
 
                         <option value="">
@@ -883,15 +901,15 @@ function Transactions() {
                         onChange={(e) =>
                             setSelectedDate(e.target.value)
                         }
-                        className="border p-3 rounded-xl outline-none"
+                        className="border p-3 rounded-xl outline-none w-full lg:w-auto"
                     />
                 </div>
 
                 {/* TABLE */}
 
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto rounded-xl">
 
-                    <table className="w-full border-collapse">
+                    <table className="min-w-[750px] w-full border-collapse">
 
                         <thead>
 
@@ -935,11 +953,11 @@ function Transactions() {
                                         className="border-b"
                                     >
 
-                                        <td className="p-4 text-center">
+                                        <td className="p-4 text-center whitespace-nowrap">
                                             {item.customer_name}
                                         </td>
 
-                                        <td className="p-4 text-center">
+                                        <td className="p-4 text-center whitespace-nowrap">
                                             {item.bank_name}
                                         </td>
 
@@ -953,11 +971,11 @@ function Transactions() {
                                             {item.type}
                                         </td>
 
-                                        <td className="p-4 text-center">
+                                        <td className="p-4 text-center whitespace-nowrap">
                                             ₹ {item.amount}
                                         </td>
 
-                                        <td className="p-4 text-center">
+                                        <td className="p-4 text-center whitespace-nowrap">
 
                                             {new Date(
                                                 item.created_at
@@ -967,14 +985,31 @@ function Transactions() {
 
                                         <td className="p-4 text-center">
 
-                                            <button
-                                                onClick={() =>
-                                                    handleDelete(item.id)
-                                                }
-                                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                                            >
-                                                Delete
-                                            </button>
+                                            {
+                                                new Date(item.created_at)
+                                                    .toISOString()
+                                                    .split("T")[0] ===
+                                                    new Date()
+                                                        .toISOString()
+                                                        .split("T")[0] ? (
+
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDelete(item.id)
+                                                        }
+                                                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                                                    >
+                                                        Delete
+                                                    </button>
+
+                                                ) : (
+
+                                                    <span className="text-gray-400 font-semibold">
+                                                        Locked
+                                                    </span>
+
+                                                )
+                                            }
 
                                         </td>
 

@@ -35,7 +35,7 @@ export const getTransactions = async (
         console.log(error);
 
         return reply.status(500).send({
-            message: "Server Error ❌",
+            message: "Server Error .",
         });
 
     }

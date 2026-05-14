@@ -51,12 +51,31 @@ export const getDailyReport = async (
         [selectedDate]
       );
 
-    // ================= CHECK =================
+    // ================= NO DATA =================
 
     if (balanceRows.length === 0) {
 
-      return reply.status(404).send({
-        message: "No data found ❌",
+      return reply.send({
+
+        total_deposit:
+          depositRows[0].total || 0,
+
+        total_withdrawal:
+          withdrawRows[0].total || 0,
+
+        closing_balance: 0,
+
+        notes: {
+
+          note_500: 0,
+          note_200: 0,
+          note_100: 0,
+          note_50: 0,
+          note_20: 0,
+          note_10: 0,
+
+        },
+
       });
 
     }
@@ -116,7 +135,7 @@ export const getDailyReport = async (
     console.log(error);
 
     return reply.status(500).send({
-      message: "Server Error ❌",
+      message: "Server Error .",
     });
 
   }

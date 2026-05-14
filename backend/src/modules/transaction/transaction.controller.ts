@@ -27,7 +27,7 @@ export const createTransaction = async (
     // ✅ Type validation
     if (type !== "deposit" && type !== "withdrawal") {
       return reply.status(400).send({
-        message: "Invalid transaction type ❌",
+        message: "Invalid transaction type .",
       });
     }
 
@@ -40,7 +40,7 @@ export const createTransaction = async (
     );
 
     if (rows.length === 0) {
-      throw new Error("Opening balance not found ❌");
+      throw new Error("Opening balance not found .");
     }
 
     const current = rows[0];
@@ -56,7 +56,7 @@ export const createTransaction = async (
         note_10 > current.note_10
       ) {
         return reply.status(400).send({
-          message: "Insufficient notes balance ❌",
+          message: "Insufficient notes balance .",
         });
       }
     }
