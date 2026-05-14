@@ -751,6 +751,14 @@ function Transactions() {
                             Airtel Bank
                         </option>
 
+                         <option value="SBI">
+                            Phone Pay
+                        </option>
+
+                         <option value="SBI">
+                            Cash
+                        </option>
+
                     </select>
 
                     <select
